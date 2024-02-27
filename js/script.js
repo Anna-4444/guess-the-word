@@ -44,7 +44,34 @@ const makeGuess = function (letterGuessed) {
     letterGuessed = letterGuessed.toUpperCase();
     if (!guessedLettersArray.includes(letterGuessed)) {
     guessedLettersArray.push(letterGuessed);
+    const li = document.createElement("li");
+    li.innerText = letterGuessed;
+    guessedLetters.append(li);
     } else {
         message.innerText = "You already guessed that letter, try again."
     }
+    updateWord(guessedLettersArray);
 };
+
+const updateWord = function (guessedLettersArray) {
+    const wordUpper = word.toUpperCase();
+    const wordUpperArray = wordUpper.split("");
+    const revealWord = [];
+    for (let letter of wordUpperArray) {
+        if (guessedLettersArray.includes(letter)) {
+            revealWord.push(letter);
+        } else {
+            revealWord.push("●");
+        }
+    }
+    wordInProgress.innerText = revealWord.join("");
+    didYouWin();
+};
+
+const didYouWin = function () {
+    if (word.toUpperCase() === wordInProgress.innerText){
+        message.classList.add("win");
+        message.innerHTML = `<p class="highlight">You guessed the correct word! Congrats!</p>`;
+    }
+};
+
